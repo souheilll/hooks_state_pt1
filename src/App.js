@@ -2,48 +2,44 @@ import './App.css';
 import React, { useState } from 'react';
 
 function App() {
-  const [count, setCount] = useState(0)
-  console.log(useState(0))
-  const [students, setStudents] = useState(['souheil'])
-  const [student, setStudent] = useState('')
+  const [users, setUsers] = useState([])
+  const [user, setUser] = useState({ email: '', name: '' })
 
-  const handleIncrement = () => {
-    setCount(count + 1)
+  const handleChangeName = (e) => {
+    setUser({ ...user, name: e.target.value })
+    console.log(user)
   }
-  const handleDecrement = () => {
-    count > 0 && setCount(count - 1)
+  const handleChangeEmail = (e) => {
+    setUser({ ...user, email: e.target.value })
+    console.log(user)
   }
-  const getNameStudents = (e) => {
-    setStudent(e.target.value)
-
-  }
-  const handleAddStudents = (e) => {
+  const addUser = (e) => {
     e.preventDefault()
-    setStudents([...students, student])
-    setStudent('')
+    setUsers([...users, user])
+    setUser({ email: '', name: '' })
   }
+
 
   return (
     <div className="App">
-      <div>
-        <button onClick={handleIncrement}> +</button>
-        <h1> {count}</h1>
-        <button onClick={handleDecrement}> -</button>
-      </div>
+      <form onSubmit={addUser}>
+        <div>
+          <input type='text' value={user.name} onChange={handleChangeName} />
+        </div>
+        <div>
+          <input type='email' value={user.email} onChange={handleChangeEmail} />
+        </div>
+        <button type='submit'> Submit</button>
+      </form>
 
       <div>
-        <form onSubmit={handleAddStudents}>
-          <div>
-            <input type='text' value={student} onChange={getNameStudents} />
+        {users.map((el, index) =>
+          <div key={index}>
+            <h1 >{el.name}</h1>
+            <h1 >{el.email}</h1>
           </div>
-          <button type='submit'> Add Students</button>
-        </form>
+        )}
       </div>
-
-      <div>
-        {students.map((el, index) => <h1 key={index} >{el}</h1>)}
-      </div>
-
     </div>
   );
 }
